@@ -7,15 +7,32 @@
   </head>
   <body>
     <div class="area_todo">
-      <h1 class="title">할 일 목록</h1>
-      <button type="button" class="btn_add">목록 추가</button>
+      <h1 class="title" id="title">할 일 목록</h1>
+      <button type="button" class="btn_add" id="btn_add">목록 추가</button>
       <hr>
-      <ul class="list">
+      <ul class="list" id="list">
         <li class="item">제목 1</li>
         <li class="item">제목 2</li>
         <li class="item">제목 3</li>
         <li class="item">제목 4</li>
       </ul>
     </div>
+    <script type="text/javascript">
+      var title = document.getElementById('title');
+      var list = document.getElementById('list');
+      var btn_add = document.getElementById('btn_add');
+
+      list.addEventListener('click',showItem);
+      function showItem(event) {
+        title.innerHTML = event.target.innerText;
+      }
+
+      btn_add.addEventListener('click',function(){
+        var item = prompt('목록추가');
+        var addItem = '<li class="item">'+item+'</li>';
+        list.innerHTML += addItem;
+      });
+
+    </script>
   </body>
 </html>
