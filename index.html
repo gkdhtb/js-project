@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		#controller {position:fixed;top:10px;right:10px;z-index:100;width:120px;padding:10px;border:2px solid #000;background:#fff;}
+		#controller section {margin-top:10px;padding-top:10px;border-top:2px dashed #000;}
+		#controller section:first-child {margin-top:0;padding-top:0;border-top:0;}
+		#controller h2 {margin:0;padding:0;}
+		#controller .radio {margin:5px 0;}
+		#controller .radio::after {content:'';display:block;clear:both;}
+		#controller input[type="radio"] {float:left;margin-right:7px;}
+		#controller label {display:block;cursor:pointer;}
+	</style>
+</head>
+<body>
+<h1>JS Project Book</h1>
+<nav id="controller">
+
+	<section class="radio_group">
+		<h2>Who</h2>
+		<div class="radio">
+			<input type="radio" name="name" id="who_ye">
+			<label for="who_ye">정예은</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="name" id="who_uj">
+			<label for="who_uj">박유진</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="name" id="who_jw">
+			<label for="who_jw">김재원</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="name" id="who_sol">
+			<label for="who_sol">전솔</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="name" id="who_by">
+			<label for="who_by">형보영</label>
+		</div>
+	</section>
+
+	<section class="radio_group">
+		<h2>Project</h2>
+		<div class="radio">
+			<input type="radio" name="project" id="project_todo">
+			<label for="project_todo">Todo</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="project" id="project_calc">
+			<label for="project_calc">Calculator</label>
+		</div>
+		<div class="radio">
+			<input type="radio" name="project" id="project_lightbox">
+			<label for="project_lightbox">Light box</label>
+		</div>
+	</section>
+
+</nav>
+
+<div id="view">
+
+</div>
+
+<script>
+	app = new Vue({
+		el: '#app-4',
+		data: {
+
+		}
+	})
+</script>
+</body>
+</html>
