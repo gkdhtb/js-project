@@ -1,76 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head id="__head">
 	<meta charset="UTF-8">
 	<title>Title</title>
 	<style>
-		#controller {position:fixed;top:10px;right:10px;z-index:100;width:120px;padding:10px;border:2px solid #000;background:#fff;}
-		#controller section {margin-top:10px;padding-top:10px;border-top:2px dashed #000;}
-		#controller section:first-child {margin-top:0;padding-top:0;border-top:0;}
-		#controller h2 {margin:0;padding:0;}
-		#controller .radio {margin:5px 0;}
-		#controller .radio::after {content:'';display:block;clear:both;}
-		#controller input[type="radio"] {float:left;margin-right:7px;}
-		#controller label {display:block;cursor:pointer;}
+		#__controller {position:fixed;top:10px;right:10px;z-index:100;width:120px;padding:10px;border:2px solid #000;background:#fff;}
+		#__controller section {margin-top:10px;padding-top:10px;border-top:2px dashed #000;}
+		#__controller section:first-child {margin-top:0;padding-top:0;border-top:0;}
+		#__controller h2 {margin:0;padding:0;}
+		#__controller .radio {margin:5px 0;}
+		#__controller .radio::after {content:'';display:block;clear:both;}
+		#__controller input[type="radio"] {float:left;margin-right:7px;}
+		#__controller label {display:block;cursor:pointer;}
+		#__app {position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
-<body>
+<body id="__body">
 <h1>JS Project Book</h1>
-<nav id="controller">
+<nav id="__controller">
 
 	<section class="radio_group">
 		<h2>Who</h2>
-		<div class="radio">
-			<input type="radio" name="name" id="who_ye">
-			<label for="who_ye">정예은</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="name" id="who_uj">
-			<label for="who_uj">박유진</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="name" id="who_jw">
-			<label for="who_jw">김재원</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="name" id="who_sol">
-			<label for="who_sol">전솔</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="name" id="who_by">
-			<label for="who_by">형보영</label>
-		</div>
+		<form id="__form_name">
+			<div class="radio">
+				<input type="radio" name="name" id="who_ye" data-name="ye">
+				<label for="who_ye">정예은</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="name" id="who_yj" data-name="yj">
+				<label for="who_yj">박유진</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="name" id="who_jw" data-name="jw">
+				<label for="who_jw">김재원</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="name" id="who_sol" data-name="sol">
+				<label for="who_sol">전솔</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="name" id="who_by" data-name="by">
+				<label for="who_by">형보영</label>
+			</div>
+		</form>
 	</section>
 
 	<section class="radio_group">
 		<h2>Project</h2>
-		<div class="radio">
-			<input type="radio" name="project" id="project_todo">
-			<label for="project_todo">Todo</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="project" id="project_calc">
-			<label for="project_calc">Calculator</label>
-		</div>
-		<div class="radio">
-			<input type="radio" name="project" id="project_lightbox">
-			<label for="project_lightbox">Light box</label>
-		</div>
+		<form id="__form_project">
+			<div class="radio">
+				<input type="radio" name="project" id="project_todo" data-project="00_todo">
+				<label for="project_todo">Todo</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="project" id="project_calc" data-project="01_calculator">
+				<label for="project_calc">Calculator</label>
+			</div>
+			<div class="radio">
+				<input type="radio" name="project" id="project_lightbox" data-project="02_lightbox">
+				<label for="project_lightbox">Light box</label>
+			</div>
+		</form>
 	</section>
 
 </nav>
 
-<div id="view">
+<div id="__app">
 
 </div>
-
 <script>
-	app = new Vue({
-		el: '#app-4',
-		data: {
+	/** Main **/
+	(() => {
+		// set config
+		window.__ = {};
+		window.__.href = getLocation(location.href);
+		window.__.params = getParams(location.href);
+
+		// init elements
+		window.__.$head = document.getElementById('__head');
+		window.__.$body = document.getElementById('__body');
+		window.__.$app = document.getElementById('__app');
+		window.__.$radioName = document.getElementById('__form_name').name;
+		window.__.$radioProject = document.getElementById('__form_project').project;
+
+		// init variables
+		window.__.project = __.params.project || '00_todo';
+		window.__.name = __.params.name || 'ye';
+
+		// init view
+		initCheckedRadioBox(__.$radioName, 'name');
+		initCheckedRadioBox(__.$radioProject, 'project');
+		createProjectView();
+
+		bindEvent({
+			element: window.__.$radioName,
+			event: 'change',
+			fn: onChangeName
+		});
+
+		bindEvent({
+			element: window.__.$radioProject,
+			event: 'change',
+			fn: onChangeProject
+		});
+	})();
+
+	/** Events **/
+	function onChangeName(e) {
+		let name = e.target.getAttribute('data-name');
+		location.assign(__.href + '?' + 'name=' + name + '&project=' + __.project);
+	}
+
+	function onChangeProject(e) {
+		let project = e.target.getAttribute('data-project');
+		location.assign(__.href + '?' + 'name=' + __.name + '&project=' + project);
+	}
+
+	function bindEvent({element, event, fn}) {
+		if (element instanceof HTMLCollection || element instanceof NodeList)
+			Array.prototype.forEach.call(element, (el) => el.addEventListener(event, fn));
+		else
+			element.addEventListener(event, fn);
+	}
+
+	/** UI **/
+	function initCheckedRadioBox(radios , data) {
+		for (let i = 0; i < radios.length; ++i) {
+			if (radios[i].getAttribute('data-' + data) === __[data]) {
+				radios[i].checked = true;
+				break;
+			}
 
 		}
-	})
+	}
+
+	function createProjectView() {
+		// remove prev view
+		removeAllChildElements(__.$app);
+
+		let name = __.name;
+		let project = __.project;
+
+		let promiseList = [
+			getProjectData(project, 'index', 'html'),
+			getProjectData(project, 'index', 'css'),
+			getProjectData(project + '/js', name, 'js')
+		];
+
+		return Promise.all(promiseList).then((data) => {
+			let html = getBodyHtml(data[0]);
+			let css = data[1];
+			let js = data[2];
+
+			let frame = getProjectElement(html, css, js, project);
+			__.$app.appendChild(frame);
+		});
+	}
+
+	function removeAllChildElements(element) {
+		while (element.hasChildNodes())
+			element.removeChild(element.firstChild)
+	}
+
+	/*
+	*  creates project element, and appends it.
+	*  (html: string, css: string) => (frame: HTMLElement)
+	* */
+	function getProjectElement(html, css, js, project) {
+		// create frame
+		let frame = document.createElement('div');
+		frame.innerHTML = html;
+
+		// remove script code
+		let scripts = frame.getElementsByTagName('script');
+		if (scripts) Array.prototype.forEach.call(scripts, (script) => frame.removeChild(script));
+
+		// change img src route
+		let imgs = frame.getElementsByTagName('img');
+		if (imgs) Array.prototype.forEach.call(imgs, (img) => {
+			let src = img.getAttribute('src');
+			if (src[0] === '.' && src[1] === '/') src = src.substring(2);
+			img.src = project + '/' + src;
+		});
+
+		// append css style
+		let style = document.createElement('style');
+		style.innerHTML = css;
+		frame.appendChild(style);
+
+		// create solution script
+		let solutionScript = document.createElement('script');
+		js += 'if(window.onload) window.onload();';
+		js = '(() => {' + js + '})()';
+		solutionScript.innerHTML = js;
+		frame.appendChild(solutionScript);
+
+		// append view and return
+		return frame;
+	}
+
+	/** Utils **/
+	/*
+	*  extract body html from all html
+	*  (html: string) => (html: string)
+	 */
+	function getBodyHtml(html) {
+		return html.substring(html.indexOf('<body>') + 6, html.lastIndexOf('</body>'));
+	}
+
+	/*
+	*  get project data (ex. html, css), using ajax
+	*  (url: string, extension: string) => (data: Promise Object)
+	 */
+	function getProjectData(dir, fileName, extension) {
+		return new Promise((resolve, reject) => {
+			let url = dir + '/' + fileName + '.' + extension;
+			let xhr = new XMLHttpRequest();
+			xhr.open("GET", url);
+			xhr.onload = () => {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					resolve(xhr.responseText);
+				} else if (xhr.status === 404) {
+					alert('파일이 없습니다.');
+				}
+			};
+			xhr.onerror = () => {
+				reject(Error('Network Error'));
+			};
+
+			xhr.send();
+		});
+	}
+
+	function getLocation(uri) {
+		return uri.substring(0, uri.indexOf('?'));
+	}
+
+	function getParams(uri) {
+		let params = {};
+
+		let firstIndex = uri.indexOf('?') + 1;
+		let lastIndex = uri.lastIndexOf('#') === -1 ? uri.length : uri.lastIndexOf('#');
+		uri = uri.substring(firstIndex, lastIndex);
+		let couples = uri.split('&');
+
+		couples.forEach((txt) => {
+			let couple = txt.split('=');
+			if (couple[0] === 'name' || couple[0] === 'project') params[couple[0]] = couple[1];
+		});
+
+		return params;
+
+	}
 </script>
 </body>
 </html>
