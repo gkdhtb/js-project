@@ -26,10 +26,10 @@ closeBtn.addEventListener('click', function(e) {
 })
 
 for(let i = 0 ; i < thumbnail.length ; i++ ) {
-  indicator[i].addEventListener('click',function(e) {
-    for(let s = 0; s < thumbnail2.length; s ++) {
-      thumbnail2[i].removeAttribute('class');
-    }
-    thumbnail2[i].setAttribute('class', 'active');
-  })
+    indicator[i].addEventListener('click',function(e) {
+        for(let s = 0; s < thumbnail2.length; s ++) {
+            thumbnail2[s].removeAttribute('class');
+        }
+        thumbnail2[i].setAttribute('class', 'active');
+    })
 }
